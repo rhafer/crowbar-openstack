@@ -49,7 +49,7 @@ crowbar_pacemaker_sync_mark "wait-database_ha_resources" do
   revision node[:database]["crowbar-revision"]
 end
 
-service_name = "galera"
+service_name = "mysql"
 
 cluster_nodes = CrowbarPacemakerHelper.cluster_nodes(node)
 nodes_names = cluster_nodes.map { |n| n[:hostname] }

@@ -44,7 +44,7 @@ end
 
 service "mysql" do
   service_name mysql_service_name
-  supports status: true, restart: true, reload: true
+  supports status: true, restart: true, reload: true, restart_crm_resource: true if ha_enabled
   action :enable
   provider Chef::Provider::CrowbarPacemakerService if ha_enabled
 end
