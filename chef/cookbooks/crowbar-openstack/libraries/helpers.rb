@@ -59,10 +59,14 @@ class Chef
 end
 
 class CrowbarOpenStackHelper
-  def self.database_settings(node, barclamp)
-    if barclamp == "mysql" or barclamp == "postgresql"
-      # We're called from one of the database cookbooks, which doesn't reference
-      # another database instance.
+  def self.database_settings(node, barclamp, db_instance=nil)
+    if db_instance
+      instance = db_instance
+    elsif barclamp == "mysql" or barclamp == "postgresql"
+      # We're called from one of the database cookbooks (likely mariadb), which
+      # doesn't reference another database instance. Since we allow multiple
+      # proposals we can't rely on our proposal being called "default" here
+      # anymore.
       instance = node[:database][:config][:environment].gsub(/^database-config-/, "")
     else
       instance = node[barclamp][:database_instance] || "default"
